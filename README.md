@@ -48,8 +48,8 @@ All SDK exceptions inherit from `RunApi\Core\Errors\RunApiException`, including 
 ## Links
 
 - Model page: https://runapi.ai/models/luma
-- SDK docs: https://runapi.ai/docs#sdk-luma
-- Product docs: https://runapi.ai/docs#luma
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/luma/modify-video
 - Pricing and rate limits: https://runapi.ai/models/luma
 - Full catalog: https://runapi.ai/models
 - GitHub repository: https://github.com/runapi-ai/luma-php

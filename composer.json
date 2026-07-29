@@ -33,7 +33,7 @@
   "homepage": "https://runapi.ai/models/luma",
   "support": {
     "source": "https://github.com/runapi-ai/luma-php",
-    "docs": "https://runapi.ai/docs#sdk-luma",
+    "docs": "https://runapi.ai/docs/resources/sdks",
     "issues": "https://github.com/runapi-ai/luma-php/issues"
   },
   "keywords": [
