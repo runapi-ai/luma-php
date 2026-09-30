@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Luma\Models\CompletedVideoTaskResponse;
 use RunApi\Luma\Models\VideoTaskResponse;
-use RunApi\Luma\Types;
 
 /**
  * Applies prompt-guided edits to an existing video. The source video's motion is preserved while visual changes described in the prompt are applied.
@@ -69,10 +68,8 @@ readonly class ModifyVideo extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/luma/modify_video',
-            'luma/modify-video',
             VideoTaskResponse::class,
             CompletedVideoTaskResponse::class,
-            Types::MODIFY_VIDEO_MODELS,
             'modify-video',
             VideoTaskResponse::class,
             CompletedVideoTaskResponse::class,

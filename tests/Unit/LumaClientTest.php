@@ -25,8 +25,7 @@ final class LumaClientTest extends TestCase
     public function testCreatePostsCompactedBodyToCorrectPath(): void
     {
         $transport = new QueueHttpClient([
-            new Response(200, [], '{"id":"task_1"}'),
-        ]);
+            new Response(200, [], '{"id":"task_1"}')]);
         $client = new LumaClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $task = $client->modifyVideo->create([
@@ -34,8 +33,7 @@ final class LumaClientTest extends TestCase
             'prompt' => 'A product render',
             'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4',
             'callback_url' => '',
-            'seed' => null,
-        ]);
+            'seed' => null]);
 
         $body = json_decode((string) $transport->requests[0]->getBody(), true, flags: JSON_THROW_ON_ERROR);
 
@@ -50,15 +48,13 @@ final class LumaClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_1"}'),
-            new Response(200, [], '{"id":"task_1","status":"completed","videos":[{"url":"https://file.runapi.ai/result"}],"extra_field":"kept"}'),
-        ]);
+            new Response(200, [], '{"id":"task_1","status":"completed","videos":[{"url":"https://file.runapi.ai/result"}],"extra_field":"kept","usage":{"cost":0.05}}')]);
         $client = new LumaClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $result = $client->modifyVideo->run([
             'model' => 'luma-modify-video',
             'prompt' => 'A product render',
-            'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4',
-        ]);
+            'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4']);
 
         self::assertInstanceOf(CompletedVideoTaskResponse::class, $result);
         self::assertSame('https://file.runapi.ai/result', $result->videos[0]->url);
@@ -70,8 +66,7 @@ final class LumaClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_1"}'),
-            new Response(200, [], '{"id":"task_1","status":"completed"}'),
-        ]);
+            new Response(200, [], '{"id":"task_1","status":"completed","usage":{"cost":0.05}}')]);
         $client = new LumaClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $this->expectException(ValidationException::class);
@@ -80,23 +75,20 @@ final class LumaClientTest extends TestCase
         $client->modifyVideo->run([
             'model' => 'luma-modify-video',
             'prompt' => 'A product render',
-            'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4',
-        ]);
+            'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4']);
     }
 
 
     public function testSecondaryResourceUsesItsOwnPath(): void
     {
         $transport = new QueueHttpClient([
-            new Response(200, [], '{"id":"task_2"}'),
-        ]);
+            new Response(200, [], '{"id":"task_2"}')]);
         $client = new LumaClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $client->modifyVideo->create([
             'model' => 'luma-modify-video',
             'prompt' => 'A product render',
-            'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4',
-        ]);
+            'source_video_url' => 'https://cdn.runapi.ai/public/samples/video.mp4']);
 
         self::assertSame('/api/v1/luma/modify_video', $transport->requests[0]->getUri()->getPath());
     }
